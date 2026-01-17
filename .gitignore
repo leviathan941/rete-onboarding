@@ -1,0 +1,17 @@
+# Cargo
+**/target/
+Cargo.lock
+
+# Rustfmt
+.rustfmt.toml
+
+# Clippy
+.clippy.toml
+
+# IDE / Editor
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store

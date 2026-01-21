@@ -1,23 +1,27 @@
 use std::time::Duration;
 
+use futures::stream::StreamExt;
+
 use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 use tokio::task::JoinSet;
-use tokio::time::timeout;
+use tokio::time::{interval, timeout};
+use tokio_stream::wrappers::IntervalStream;
 
 const ADDR: &str = "127.0.0.1:6142";
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
-    let mut rng = rand::thread_rng();
     let mut handles = JoinSet::new();
-    for i in 0..10 {
-        let sleep_secs = rand::Rng::gen_range(&mut rng, 0..=10);
+    let task_interval = interval(Duration::from_secs(1));
+    let mut stream = IntervalStream::new(task_interval)
+        .enumerate()
+        .take(10);
+    while let Some((i, _)) = stream.next().await {
         handles.spawn(async move {
-            tokio::time::sleep(Duration::from_secs(sleep_secs)).await;
-            run_client(i as usize, ADDR).await
+            run_connection(i, ADDR).await
         });
-     }
+    }
 
     while let Some(res) = handles.join_next().await {
         if let Err(e) = res {
@@ -28,7 +32,7 @@ async fn main() -> io::Result<()> {
     Ok(())
 }
 
-async fn run_client(index: usize, addr: &str) -> io::Result<()> {
+async fn run_connection(index: usize, addr: &str) -> io::Result<()> {
     let socket = TcpStream::connect(addr).await?;
     let (mut rd, mut wr) = io::split(socket);
 
@@ -43,12 +47,13 @@ async fn run_client(index: usize, addr: &str) -> io::Result<()> {
         let result = timeout(Duration::from_secs(5), rd.read(&mut buf)).await;
 
         match result {
+            Ok(Ok(0)) => {
+                println!("Client {index} connection closed by server");
+                break;
+            },
             Ok(Ok(n)) => {
-                if let Ok(str) = std::str::from_utf8(&buf[..n]) {
-                    println!("GOT a string: {}", str);
-                } else {
-                    println!("GOT {:?}", &buf[..n]);
-                }
+                let str = String::from_utf8_lossy(&buf[..n]);
+                println!("GOT {str}");
             },
             Ok(Err(e)) => {
                 eprintln!("Client {} read error: {}", index, e);

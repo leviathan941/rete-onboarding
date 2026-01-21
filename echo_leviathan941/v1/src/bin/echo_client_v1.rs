@@ -21,11 +21,8 @@ async fn main() -> io::Result<()> {
             break;
         }
 
-        if let Ok(str) = std::str::from_utf8(&buf[..n]) {
-            println!("GOT a string: {}", str);
-        } else {
-            println!("GOT {:?}", &buf[..n]);
-        }
+        let str = String::from_utf8_lossy(&buf[..n]);
+        println!("GOT {str}");
     }
 
     Ok(())

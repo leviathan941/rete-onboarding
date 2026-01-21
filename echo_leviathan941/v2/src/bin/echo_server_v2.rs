@@ -19,11 +19,11 @@ async fn main() -> io::Result<()> {
                 let (mut rd, mut wr) = socket.split();
 
                 if io::copy(&mut rd, &mut wr).await.is_err() {
-                    eprintln!("failed to copy");
+                    eprintln!("Failed to copy");
                 }
             });
         } else {
-            println!("Max connections {} reached; dropping new connection.", MAX_CONNECTIONS_COUNT);
+            println!("Max connections {MAX_CONNECTIONS_COUNT} reached; dropping new connection.");
             continue;
         }
     }

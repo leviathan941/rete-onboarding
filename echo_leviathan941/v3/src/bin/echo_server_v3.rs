@@ -19,7 +19,10 @@ async fn main() -> io::Result<()> {
                 handle_connection(stream).await;
             });
         } else {
-            println!("Max connections {} reached; rejecting new connection.", MAX_CONNECTIONS_COUNT);
+            println!(
+                "Max connections {} reached; rejecting new connection.",
+                MAX_CONNECTIONS_COUNT
+            );
             continue;
         }
     }

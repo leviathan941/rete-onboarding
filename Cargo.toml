@@ -8,5 +8,6 @@ members = [
 ]
 
 [workspace.dependencies]
+futures = "0.3"
 tokio = { version = "1", features = ["full"] }
 tokio-stream = { version = "0.1", features = ["time"] }

@@ -14,12 +14,11 @@ async fn main() -> io::Result<()> {
     loop {
         tokio::select! {
             Ok((mut stream, _addr)) = listener.accept() => {
-                // Possible race condition here!
                 if handlers.len() < MAX_CONNECTIONS_COUNT {
                     let handler = tokio::spawn(async move {
                         let (mut rd, mut wr) = stream.split();
                         if io::copy(&mut rd, &mut wr).await.is_err() {
-                            eprintln!("failed to copy");
+                            eprintln!("Failed to copy");
                         }
                     });
                     handlers.push(handler);

@@ -6,3 +6,7 @@ members = [
     "echo_leviathan941/v2_5",
     "echo_leviathan941/v3",
 ]
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["full"] }
+tokio-stream = { version = "0.1", features = ["time"] }

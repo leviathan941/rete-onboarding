@@ -1,0 +1,13 @@
+description: Runs echo server and client
+
+services:
+  echo_server:
+    type: org.leviathan.echo.flor.Server
+    args:
+      host: "127.0.0.1"
+      port: 6142
+      max_connections: 3
+  echo_client:
+    type: org.leviathan.echo.flor.Client
+    args:
+      addr: "127.0.0.1:6142"

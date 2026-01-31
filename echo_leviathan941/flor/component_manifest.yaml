@@ -1,0 +1,11 @@
+package: org.leviathan.echo.flor
+version: "0.0.1"
+description: Echo client and server components using Flor framework
+
+services:
+  .Client:
+    description: Echo client
+    accessor: crate::echo_client_flor::Client
+  .Server:
+    description: Echo server
+    accessor: crate::echo_server_flor::Server

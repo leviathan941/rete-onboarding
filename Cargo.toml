@@ -1,6 +1,7 @@
 [workspace]
 resolver = "3"
 members = [
+    "echo_leviathan941/flor",
     "echo_leviathan941/v1",
     "echo_leviathan941/v2",
     "echo_leviathan941/v2_5",
@@ -8,6 +9,11 @@ members = [
 ]
 
 [workspace.dependencies]
+async-trait = "0.1"
+error-stack = "0.5"
+flor = { git = "ssh://ssh.sourcecraft.dev/retelabs/flor-private.git", branch = "main" }
 futures = "0.3"
+log = "0.4"
+thiserror = "2.0"
 tokio = { version = "1", features = ["full"] }
 tokio-stream = { version = "0.1", features = ["time"] }

@@ -2,6 +2,7 @@
 resolver = "3"
 members = [
     "echo_leviathan941/flor",
+    "echo_leviathan941/flor_cap",
     "echo_leviathan941/v1",
     "echo_leviathan941/v2",
     "echo_leviathan941/v2_5",
@@ -10,6 +11,7 @@ members = [
 
 [workspace.dependencies]
 async-trait = "0.1"
+dyn-clone = "1.0"
 error-stack = "0.5"
 flor = { git = "ssh://ssh.sourcecraft.dev/retelabs/flor-private.git", branch = "main" }
 futures = "0.3"

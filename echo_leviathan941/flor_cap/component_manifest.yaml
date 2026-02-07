@@ -1,0 +1,23 @@
+package: org.leviathan.echo.flor
+version: "0.2.0"
+description: Echo client and server components using Flor framework
+
+capabilities:
+  .ConnectionObservable:
+    description: Observable for connection events
+    accessor: crate::capabilities::observable::connection::ConnectionObservable
+
+services:
+  .Server:
+    description: Echo server
+    accessor: crate::services::echo_server::Server
+    provides:
+      connection_observable: .ConnectionObservable
+  .Client:
+    description: Echo client
+    accessor: crate::services::echo_client::Client
+  .ConnectionMonitor:
+    description: Monitor for connection events
+    accessor: crate::services::echo_monitor::ConnectionMonitor
+    uses:
+      connection_observable: .ConnectionObservable

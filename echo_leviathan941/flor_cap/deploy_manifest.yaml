@@ -1,0 +1,18 @@
+description: Runs echo server, client, monitor
+
+services:
+  echo_server:
+    type: org.leviathan.echo.flor.Server
+    args:
+      host: "127.0.0.1"
+      port: 6142
+      max_connections: 3
+    provides: [connection_observable]
+  echo_client:
+    type: org.leviathan.echo.flor.Client
+    args:
+      addr: "127.0.0.1:6142"
+  echo_monitor:
+    type: org.leviathan.echo.flor.ConnectionMonitor
+    uses:
+      connection_observable: echo_server.connection_observable

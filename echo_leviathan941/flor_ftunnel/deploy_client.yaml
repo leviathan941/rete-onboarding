@@ -1,0 +1,21 @@
+description: Runs echo server, client, monitor
+
+services:
+  node_b:
+    type: tech.florete.network.UdpNode
+    uses: {}
+    provides: [connector]
+    args:
+      name: node_b
+      link_cfg:
+        local: 127.0.0.1:6143
+        peers: [{ addr: 127.0.0.1:6142, services: ["echo_server"] }]
+
+  echo_client:
+    type: org.leviathan.echo.flor.Client
+    args:
+      name: echo_client
+      server_name: echo_server
+    uses:
+      connector: node_b.connector
+

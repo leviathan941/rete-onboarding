@@ -1,0 +1,16 @@
+[package]
+name = "echo-leviathan941-flor-ftunnel"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+async-trait.workspace = true
+dyn-clone.workspace = true
+error-stack.workspace = true
+flor.workspace = true
+floretum.workspace = true
+futures.workspace = true
+log.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tokio-stream.workspace = true

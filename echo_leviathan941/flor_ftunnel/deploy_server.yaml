@@ -1,0 +1,26 @@
+description: Runs echo server and monitor
+
+services:
+  node_a:
+    type: tech.florete.network.UdpNode
+    uses: {}
+    provides: [publisher]
+    args:
+      name: node_a
+      link_cfg:
+        local: 127.0.0.1:6142
+        peers: [{ addr: 127.0.0.1:6143, services: [] }]
+
+  echo_server:
+    type: org.leviathan.echo.flor.Server
+    args:
+      name: echo_server
+      max_connections: 3
+    provides: [connection_observable]
+    uses:
+      publisher: node_a.publisher
+
+  echo_monitor:
+    type: org.leviathan.echo.flor.ConnectionMonitor
+    uses:
+      connection_observable: echo_server.connection_observable
